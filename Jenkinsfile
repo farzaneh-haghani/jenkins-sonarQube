@@ -36,16 +36,36 @@ pipeline {
             }
         }
 
+        // stage('Coverage Report') {
+        //     steps {
+        //         sh 'mvn jacoco:report'
+        //     }
+        //     post {
+        //         always {
+        //             archiveArtifacts artifacts: 'target/site/jacoco/jacoco.xml', allowEmptyArchive: true
+        //         }
+        //     }
+        // }
+
         stage('Coverage Report') {
-            steps {
-                sh 'mvn jacoco:report'
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'target/site/jacoco/jacoco.xml', allowEmptyArchive: true
-                }
-            }
+    steps {
+        sh 'mvn jacoco:report'
+    }
+    post {
+        always {
+            publishHTML(target: [
+                reportDir: 'target/site/jacoco',
+                reportFiles: 'index.html',
+                reportName: 'JaCoCo Coverage',
+                keepAll: false,
+                alwaysLinkToLastBuild: true,
+                allowMissing: true
+            ])
+
+            archiveArtifacts artifacts: 'target/site/jacoco/jacoco.xml', allowEmptyArchive: true
         }
+    }
+}
 
         stage('Static Analysis Reports') {
             steps {
