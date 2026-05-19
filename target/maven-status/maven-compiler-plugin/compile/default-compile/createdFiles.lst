@@ -1,0 +1,6 @@
+com/example/craft/domain/OrderItem.class
+com/example/craft/domain/Order.class
+com/example/craft/OrderProcessor.class
+com/example/craft/domain/Customer.class
+com/example/craft/Main.class
+com/example/craft/domain/CustomerType.class
