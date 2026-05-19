@@ -67,18 +67,59 @@ pipeline {
     }
 }
 
+        // stage('Static Analysis Reports') {
+        //     steps {
+        //         sh '''
+        //             mvn checkstyle:checkstyle pmd:pmd spotbugs:spotbugs
+        //         '''
+        //     }
+        //     post {
+        //         always {
+        //             archiveArtifacts artifacts: 'target/site/**,target/spotbugsXml.xml', allowEmptyArchive: true
+        //         }
+        //     }
+        // }
+
         stage('Static Analysis Reports') {
-            steps {
-                sh '''
-                    mvn checkstyle:checkstyle pmd:pmd spotbugs:spotbugs
-                '''
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'target/site/**,target/spotbugsXml.xml', allowEmptyArchive: true
-                }
-            }
+    steps {
+        sh '''
+            mvn checkstyle:checkstyle pmd:pmd spotbugs:spotbugs
+        '''
+    }
+    post {
+        always {
+            recordIssues(
+                enabledForFailure: true,
+                tools: [
+                    checkStyle(pattern: 'target/checkstyle-result.xml'),
+                    pmdParser(pattern: 'target/pmd.xml'),
+                    spotBugs(pattern: 'target/spotbugsXml.xml')
+                ],
+                qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+            )
+
+            publishHTML(target: [
+                reportDir: 'target/site',
+                reportFiles: 'checkstyle.html',
+                reportName: 'Checkstyle HTML Report',
+                keepAll: false,
+                alwaysLinkToLastBuild: true,
+                allowMissing: true
+            ])
+
+            publishHTML(target: [
+                reportDir: 'target/site',
+                reportFiles: 'pmd.html',
+                reportName: 'PMD HTML Report',
+                keepAll: false,
+                alwaysLinkToLastBuild: true,
+                allowMissing: true
+            ])
+
+            archiveArtifacts artifacts: 'target/checkstyle-result.xml,target/pmd.xml,target/spotbugsXml.xml', allowEmptyArchive: true
         }
+    }
+}
        
         stage('SonarQube Analysis') {
             steps {
