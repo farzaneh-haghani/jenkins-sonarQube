@@ -59,10 +59,7 @@ pipeline {
                 }
             }
         }
-
-        /*
-        Enable this after SonarQube is installed and configured in Jenkins.
-
+       
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
@@ -70,6 +67,5 @@ pipeline {
                 }
             }
         }
-        */
     }
 }
