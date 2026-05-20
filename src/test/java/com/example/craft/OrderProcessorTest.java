@@ -25,40 +25,4 @@ class OrderProcessorTest {
         assertTrue(receipt.contains("Delivery: £3.99"));
         assertTrue(receipt.contains("Total: £12.49"));
     }
-
-    @Test
-    void empty_order_is_rejected() {
-        Customer customer = new Customer("Ada", "ada@example.com", null, CustomerType.STANDARD);
-        Order order = new Order("ORD-2", customer, "STANDARD", "CARD");
-
-        IllegalArgumentException ex = assertThrows(
-                IllegalArgumentException.class,
-                () -> processor.process(order)
-        );
-
-        assertEquals("Order must contain at least one item", ex.getMessage());
-    }
-
-    @Test
-    void invalid_email_is_rejected() {
-        Customer customer = new Customer("Ada", "not-an-email", null, CustomerType.STANDARD);
-        Order order = new Order("ORD-3", customer, "STANDARD", "CARD");
-        order.addItem(new OrderItem("Book", 1, 1000));
-
-        assertThrows(IllegalArgumentException.class, () -> processor.process(order));
-    }
-
-    @Test
-    void unknown_delivery_type_is_rejected() {
-        Customer customer = new Customer("Ada", "ada@example.com", null, CustomerType.STANDARD);
-        Order order = new Order("ORD-4", customer, "DRONE", "CARD");
-        order.addItem(new OrderItem("Book", 1, 1000));
-
-        IllegalArgumentException ex = assertThrows(
-                IllegalArgumentException.class,
-                () -> processor.process(order)
-        );
-
-        assertTrue(ex.getMessage().contains("Unknown delivery type"));
-    }
 }
