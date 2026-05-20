@@ -5,15 +5,6 @@ import com.example.craft.domain.CustomerType;
 import com.example.craft.domain.Order;
 import com.example.craft.domain.OrderItem;
 
-/*
- * Deliberately bad-but-working starter code.
- *
- * It mixes validation, pricing, discount rules, delivery rules, payment,
- * persistence, notification and receipt generation in one class.
- *
- * This version is intentionally slightly worse than it needs to be so that
- * SonarQube, PMD and code review have useful things to find.
- */
 public class OrderProcessor {
 
     public String process(Order order) {
