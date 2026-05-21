@@ -1,0 +1,30 @@
+# Maven build output
+/target/
+
+# Eclipse files
+.project
+.classpath
+.settings/
+
+# IntelliJ IDEA files
+/.idea/
+*.iml
+*.iws
+out/
+
+# VS Code files
+.vscode/
+
+# MacOS files
+.DS_Store
+
+# Logs
+*.log
+
+# Sonar
+/.scannerwork/
+
+# Temporary files
+*.tmp
+*.swp
+*~

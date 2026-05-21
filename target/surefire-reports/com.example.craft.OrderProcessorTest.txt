@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.example.craft.OrderProcessorTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.241 s -- in com.example.craft.OrderProcessorTest
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.275 s -- in com.example.craft.OrderProcessorTest
