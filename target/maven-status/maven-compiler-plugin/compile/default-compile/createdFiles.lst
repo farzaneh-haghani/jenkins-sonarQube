@@ -1,6 +1,13 @@
-com/example/craft/domain/OrderItem.class
-com/example/craft/domain/Order.class
-com/example/craft/OrderProcessor.class
 com/example/craft/domain/Customer.class
 com/example/craft/Main.class
+com/example/craft/discount/StaffDiscountStrategy.class
+com/example/craft/domain/OrderItem.class
+com/example/craft/discount/StudentDiscountStrategy.class
+com/example/craft/discount/DiscountStrategyFactory.class
+com/example/craft/delivery/DeliveryStrategy.class
+com/example/craft/discount/NoDiscountStrategy.class
 com/example/craft/domain/CustomerType.class
+com/example/craft/domain/Order.class
+com/example/craft/discount/DiscountStrategy.class
+com/example/craft/OrderProcessor.class
+com/example/craft/discount/PremiumDiscountStrategy.class

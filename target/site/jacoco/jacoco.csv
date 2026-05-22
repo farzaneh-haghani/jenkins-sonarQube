@@ -1,7 +1,13 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+software-craft-starter,com.example.craft.discount,StaffDiscountStrategy,24,0,2,0,5,0,3,0,2,0
+software-craft-starter,com.example.craft.discount,StudentDiscountStrategy,6,18,1,1,1,4,1,2,0,2
+software-craft-starter,com.example.craft.discount,DiscountStrategyFactory,4,24,1,5,1,7,1,4,0,2
+software-craft-starter,com.example.craft.discount,NoDiscountStrategy,0,5,0,0,0,2,0,2,0,2
+software-craft-starter,com.example.craft.discount,PremiumDiscountStrategy,0,40,1,3,0,10,1,4,0,3
+software-craft-starter,com.example.craft.domain,Order,0,42,0,0,0,14,0,7,0,7
 software-craft-starter,com.example.craft.domain,OrderItem,3,18,0,0,1,7,1,3,1,3
 software-craft-starter,com.example.craft.domain,CustomerType,0,27,0,0,0,5,0,1,0,1
 software-craft-starter,com.example.craft.domain,Customer,0,27,0,0,0,10,0,5,0,5
-software-craft-starter,com.example.craft.domain,Order,0,42,0,0,0,14,0,7,0,7
-software-craft-starter,com.example.craft,OrderProcessor,93,333,27,47,21,79,25,16,1,3
 software-craft-starter,com.example.craft,Main,44,0,0,0,8,0,2,0,2,0
+software-craft-starter,com.example.craft,OrderProcessor,100,353,30,50,21,80,29,18,1,6
+software-craft-starter,com.example.craft.delivery,DeliveryStrategy,3,0,0,0,1,0,1,0,1,0

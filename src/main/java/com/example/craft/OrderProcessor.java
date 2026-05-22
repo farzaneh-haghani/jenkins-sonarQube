@@ -1,5 +1,7 @@
 package com.example.craft;
 
+import com.example.craft.discount.DiscountStrategy;
+import com.example.craft.discount.DiscountStrategyFactory;
 import com.example.craft.domain.Customer;
 import com.example.craft.domain.CustomerType;
 import com.example.craft.domain.Order;
@@ -7,89 +9,16 @@ import com.example.craft.domain.OrderItem;
 
 public class OrderProcessor {
 
+    private final DiscountStrategyFactory discountStrategyFactory = new DiscountStrategyFactory();
+
     public String process(Order order) {
-        if (order == null) {
-            throw new IllegalArgumentException("Order must not be null");
-        }
+        validateOrder(order);
 
-        if (order.getCustomer() == null) {
-            throw new IllegalArgumentException("Customer must not be null");
-        }
-
-        if (order.getItems().isEmpty()) {
-            throw new IllegalArgumentException("Order must contain at least one item");
-        }
-
-        Customer customer = order.getCustomer();
-
-        if (customer.getName() == null || customer.getName().trim().length() == 0) {
-            throw new IllegalArgumentException("Customer name is invalid");
-        }
-
-        if (customer.getEmail() == null || !customer.getEmail().contains("@")) {
-            throw new IllegalArgumentException("Customer email is invalid");
-        }
-
-        if (customer.getType() == null) {
-            throw new IllegalArgumentException("Customer type is required");
-        }
-
-        int subtotal = 0;
-        int itemCount = 0;
-
-        for (OrderItem item : order.getItems()) {
-            if (item == null) {
-                throw new IllegalArgumentException("Order item must not be null");
-            }
-
-            if (item.getQuantity() <= 0) {
-                throw new IllegalArgumentException("Item quantity must be positive");
-            }
-
-            if (item.getUnitPricePence() <= 0) {
-                throw new IllegalArgumentException("Item price must be positive");
-            }
-
-            subtotal = subtotal + item.getQuantity() * item.getUnitPricePence();
-            itemCount = itemCount + item.getQuantity();
-        }
-
-        int discount = 0;
-
-        if (customer.getType() == CustomerType.STUDENT) {
-            discount = (int) (subtotal * 0.15);
-
-            if (subtotal > 10000) {
-                discount = discount + 250;
-            }
-
-            System.out.println("Student discount applied");
-        } else if (customer.getType() == CustomerType.PREMIUM) {
-            discount = (int) (subtotal * 0.10);
-
-            if (itemCount > 5) {
-                discount = discount + 300;
-            }
-
-            System.out.println("Premium discount applied");
-        } else if (customer.getType() == CustomerType.STAFF) {
-            discount = (int) (subtotal * 0.20);
-
-            if (subtotal > 20000) {
-                discount = discount + 500;
-            }
-
-            System.out.println("Staff discount applied");
-        } else {
-            discount = 0;
-            System.out.println("No discount applied");
-        }
-
-        if (discount > subtotal) {
-            discount = subtotal;
-        }
+        int subtotal = calculateSubtotal(order);
+        int discount = calculateDiscount(order.getCustomer(), order, subtotal);
 
         int deliveryFee = 0;
+        Customer customer = order.getCustomer();
 
         if (order.getDeliveryType().equalsIgnoreCase("STANDARD")) {
             deliveryFee = 399;
@@ -182,5 +111,91 @@ public class OrderProcessor {
 
     private boolean isLargeOrder(int total) {
         return total > 50000;
+    }
+
+    private void validateOrder(Order order) {
+        if (order == null) {
+            throw new IllegalArgumentException("Order must not be null");
+        }
+
+        if (order.getCustomer() == null) {
+            throw new IllegalArgumentException("Order must have a customer");
+        }
+
+        if (order.getItems() == null || order.getItems().isEmpty()) {
+            throw new IllegalArgumentException("Order must have at least one item");
+        }
+
+        Customer customer = order.getCustomer();
+
+        if (customer.getName() == null || customer.getName().isBlank()) {
+            throw new IllegalArgumentException("Customer must have a name");
+        }
+
+        if (customer.getEmail() == null || !customer.getEmail().contains("@")) {
+            throw new IllegalArgumentException("Customer email is invalid");
+        }
+
+        if (customer.getType() == null) {
+            throw new IllegalArgumentException("Customer must have a type");
+        }
+
+        for (OrderItem item : order.getItems()) {
+            if (item == null) {
+                throw new IllegalArgumentException("Order item must not be null");
+            }
+
+            if (item.getQuantity() <= 0) {
+                throw new IllegalArgumentException("Item quantity must be positive");
+            }
+
+            if (item.getUnitPricePence() <= 0) {
+                throw new IllegalArgumentException("Item price must be positive");
+            }
+        }
+
+        if (order.getDeliveryType() == null || order.getDeliveryType().isBlank()) {
+            throw new IllegalArgumentException("Order must have a delivery type");
+        }
+
+        if (order.getPaymentType() == null || order.getPaymentType().isBlank()) {
+            throw new IllegalArgumentException("Order must have a payment type");
+        }
+
+        for (OrderItem item : order.getItems()) {
+            if (item == null) {
+                throw new IllegalArgumentException("Order items must not be null");
+            }
+
+            if (item.getQuantity() <= 0) {
+                throw new IllegalArgumentException("Order item must have a positive quantity");
+            }
+
+            if (item.getUnitPricePence() <= 0) {
+                throw new IllegalArgumentException("Order item must have a positive unit price");
+            }
+        }
+
+        // if (order.getDeliveryType() == null || order.getDeliveryType().isBlank()) {
+        // throw new IllegalArgumentException("Order must have a delivery type");
+        // }
+
+        // if (order.getPaymentType() == null || order.getPaymentType().isBlank()) {
+        // throw new IllegalArgumentException("Order must have a payment type");
+        // }
+    }
+
+    private int calculateSubtotal(Order order) {
+        int subtotal = 0;
+
+        for (OrderItem item : order.getItems()) {
+            subtotal = subtotal + item.getQuantity() * item.getUnitPricePence();
+        }
+        return subtotal;
+    }
+
+    private int calculateDiscount(Customer customer, Order order, int subtotal) {
+        DiscountStrategy strategy = discountStrategyFactory.getStrategy(customer.getType());
+        return strategy.calculateDiscount(order, subtotal);
     }
 }

@@ -1,5 +1,12 @@
 /home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/Main.java
 /home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/OrderProcessor.java
+/home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/delivery/DeliveryStrategy.java
+/home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/discount/DiscountStrategy.java
+/home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/discount/DiscountStrategyFactory.java
+/home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/discount/NoDiscountStrategy.java
+/home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/discount/PremiumDiscountStrategy.java
+/home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/discount/StaffDiscountStrategy.java
+/home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/discount/StudentDiscountStrategy.java
 /home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/domain/Customer.java
 /home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/domain/CustomerType.java
 /home/ubuntu/probable-octo-broccoli/src/main/java/com/example/craft/domain/Order.java
